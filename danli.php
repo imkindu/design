@@ -6,6 +6,6 @@
 
 class Simple
 {
-	private $_obj;
+	private $_obj;		//私有属性，保存对象
 	
 }
