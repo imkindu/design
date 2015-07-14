@@ -1,0 +1,94 @@
+
+
+<!--
+	观察者模式完成页面风格切换
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>观察者模式</title>
+		<style>
+			div{
+				margin: 10px;
+				width: 500px;
+				height: 200px;
+			}
+			#content{
+				border: 1px solid blue;
+			}
+			#ad{
+				border: 1px solid blue;
+			}
+			#study{
+				border: 1px solid blue;
+			}
+		</style>
+	</head>
+
+
+
+	<body>
+		<h1>面向过程</h1>
+		<select name="" id="">
+			<option value="man">男士风格</option>
+			<option value="female">女士风格</option>
+		</select>
+		<div id='content'>我是内容</div>
+		<div id='ad'>我是广告</div>
+		<div id="study">学习区</div>
+
+	</body>
+
+	<script type="text/javascript">
+		var sel = document.getElementsByTagName('select')[0];
+		sel.observers = {};
+		//添加观察者
+		sel.attach = function(key, obj){
+			sel.observers[key] = obj;
+		}
+		//删除观察者
+		sel.detach = function(key) {
+			delete this.observers[key];
+		}
+
+		sel.onchange = sel.notify = function(){
+			for(var key in this.observers){
+				this.observers[key].update(this);
+			}
+		}
+
+		//客户端
+		var content = document.getElementById('content');
+		content.update = function(observee){
+			if(observee.value == 'man'){
+				document.getElementById("content").style.backgroundColor="white";
+				document.getElementById("content").innerHTML="男士广告";
+			}
+			if(observee.value == 'female'){
+				document.getElementById("content").style.backgroundColor="pink";
+				document.getElementById("content").innerHTML="女士广告";
+			}
+		}
+
+		var ad = document.getElementById('ad');
+		ad.update = function(observee){
+			if(observee.value == 'man'){
+				document.getElementById("ad").style.backgroundColor="white";
+				document.getElementById("ad").innerHTML="健身";
+			}
+			if(observee.value == 'female'){
+				document.getElementById("ad").style.backgroundColor="pink";
+				document.getElementById("ad").innerHTML="漂亮衣服";
+			}
+		}
+		sel.attach('content',content);
+		sel.attach('ad',ad);
+
+		/*
+		*	后续如果需要添加多个观察者，可以单独添加，而不需要改动原有代码
+		*	降低了主题对象和观察者对象的耦合性
+		*/
+	
+	</script>
+</html>
