@@ -26,7 +26,7 @@ class BaseArt
 */
 class BianArt extends BaseArt
 {
-	protected $bian;
+	//protected $bian;
 	public function decorator()
 	{
 		return parent::decorator().'小编:'.$this->bian;
